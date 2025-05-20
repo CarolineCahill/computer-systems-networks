@@ -1,0 +1,48 @@
+# Provisioning a Virtual machine
+
+You have a virtual machine running and you can edit java source code files from your host machine and have them synced into the virtual machine. Let us now compile and run the source code.
+
+You could just SSH in and install Java JDK, but then every person who used Vagrant would have to do the same thing. However , using Vagrant's built-in support for automated provisioning, you can automatically install software when you ``vagrant up`` so that the guest machine can be repeatably created.
+
+## Installing Java
+You will now install Java 8 JDK using a shell script.
+Create a shell script called ``bootstrap.sh`` in the same directory as the ``vagrantfile``. Add the the following to ``bootstrap.sh``.
+~~~bash
+#!/bin/sh
+apt-get update
+
+echo "\n----- Installing tshark now ------\n"
+apt-get install -y tshark
+
+echo "\n----- Installing Java 7 jdk now ------\n"
+apt-get install -y openjdk-7-jdk
+
+echo "Done installing stuff."
+~~~
+
+- Now, to configure Vagrant to run this shell script when setting up our machine, edit the Vagrantfile so that it includes a provision statement that run bootstrap shell script:
+
+~~~ruby
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+    config.vm.define "pc0" do |pc0|
+        pc0.vm.hostname = "pc0"
+        pc0.vm.network :private_network, ip: "192.168.5.2"
+    end
+  config.vm.box = "frankwalsh/labvm"
+  config.ssh.forward_x11 = true
+  config.vm.provision :shell, path: "bootstrap.sh"
+end
+~~~
+
+The ``config.vm.provision :shell, path: "bootstrap.sh"`` line tells vagrant to run ``bootstrap.sh`` using the shell provisioner.
+
+- Now, at the command line in your project directory, run ``vagrant up`` to start and provision your virtual machine. you should the the install progress in the console as vagrant works through the script.  After Vagrant completes running, you will have both tshark (a network packet monitoring tool) and the Java Development Kit installed on your virtual machine.
+
+- Now you should be able to compile and run the HelloWorld.java script. Do ``vagrant ssh`` to start a SSH session with your VM. Enter the following commands in the SSH session to compile and run HelloWorld.java:
+
+~~~shell
+vagrant@pc0:/vagrant$ javac HelloWorld.java
+vagrant@pc0:/vagrant$ java HelloWorld
+Hello, World
+~~~

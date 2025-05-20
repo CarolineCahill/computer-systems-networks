@@ -1,0 +1,22 @@
+# markdown-spellcheck spelling configuration file
+# Format - lines beginning # are comments
+# global dictionary is at the start, file overrides afterwards
+# one word per line, to define a file override use ' - filename'
+# where filename is relative to this configuration file
+ - 01.01.md
+hypervisor
+cmd
+Dbl
+virtualbox
+v5.2
+ - 02.02.md
+Libre
+iso
+vm
+ - 03.03.md
+frankwalsh
+labvm
+800MB
+ - 00.Preparatory Lab.md
+Virtualbox
+14th
