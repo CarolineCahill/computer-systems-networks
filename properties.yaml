@@ -6,6 +6,9 @@ credits        : Dr Frank Walsh, Caroline Cahill, Mujahid Tabassum, SETU
 ignorepin      : 1122
 auth           : 3
 defaultPdfReader: mozilla
+icon:
+  type: ri:terminal-box-fill
+  color: db0421
 ignore :
  # - topic----assignments
 # - topic-00-Assessment_Details
