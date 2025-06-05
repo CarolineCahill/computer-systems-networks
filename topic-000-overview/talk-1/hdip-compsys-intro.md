@@ -1,2 +1,2 @@
 # Module Introduction
-Introductions · Module structure · Module assessment · Ethos
+Introduction · Module structure · Module assessment · Ethos
